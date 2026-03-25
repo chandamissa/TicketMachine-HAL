@@ -1,3 +1,4 @@
+import isel.leic.UsbPort
 import isel.leic.utils.Time
 
 const val NONE = 0.toChar()
