@@ -41,6 +41,23 @@ object SerialEmitter {
 
 }
 
-fun main(args: Array<String>) {
+fun main() {
+    // 1. Acordar as fundações (Podes precisar disto dependendo de como o professor fez o HAL)
+    HAL.init()
 
+    // 2. Colocar os pinos do emissor no estado de repouso
+    SerialEmitter.init()
+
+    println("SerialEmitter iniciado. Pinos em repouso.")
+
+    // 3. Vamos preparar um pacote de teste.
+    // O valor 0x55 (em binário: 00 0101 0101) é ótimo porque alterna os bits.
+    val pacoteDeTeste = 0x055
+
+    println("A enviar o pacote: 0x$pacoteDeTeste para o LCD...")
+
+    // 4. Enviar!
+    SerialEmitter.send(SerialEmitter.Peripheral.LCD, pacoteDeTeste)
+
+    println("Transmissão concluída!")
 }
