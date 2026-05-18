@@ -26,7 +26,7 @@ object HAL {
     fun clrBits(mask: Int) = writeBits(mask, 0)
 }
 
-fun main(args: Array<String>) {
+fun main(   ) {
     HAL.init()
 
     println("A testar a ligação ao UsbPort...")

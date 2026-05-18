@@ -4,7 +4,7 @@ object LCD {
     const val LINES = 2
     const val COLS = 16
 
-    // Escreve um byte de comando/dados no LCD em serie
+    // Escreve um byte de comando/dados no LCD em série
     private fun writeByteSerial(rs: Boolean, data: Int) {
         val rs1 = if (rs) 1 else 0
         val pacote = (rs1) or (data shl 1) or (1 shl 9)
@@ -19,7 +19,7 @@ object LCD {
     }
 
     // Escreve um comando no LCD
-    private fun writeCMD(data: Int) {
+    fun writeCMD(data: Int) {
         writeByte(false, data)
     }
 
@@ -30,7 +30,7 @@ object LCD {
 
     // Envia a sequencia de iniciacao para comunicacao a 8 bits.
     fun init() {
-        Thread.sleep(15)
+        Thread.sleep(50)
         writeCMD(0x30)
         Thread.sleep(5)
         writeCMD(0x30)
@@ -54,17 +54,15 @@ object LCD {
     }
 
     // Envia comando para posicionar cursor (’line ’:0..LINES-1 , ’column ’:0..COLS-1)
-    fun cursor(line: Int = LINES, column: Int = COLS )   {
-        when (line) {
-            0 -> writeCMD(0x80 + column)
-            else -> writeCMD(0xC0 + column)
-        }
+    fun cursor(line: Int = 0, column: Int = 0) {
+        val address = if (line == 0) 0x80 + column else 0xC0 + column
+        writeCMD(address)
     }
 
     // Envia comando para limpar o ecra e posicionar o cursor em (0,0)
     fun clear() {
         writeCMD(0x01)
-        Thread.sleep(2)
+        Thread.sleep(10)
     }
 }
 
@@ -81,13 +79,13 @@ fun main() {
     println("LCD pronto e configurado!")
 
     // 3. Testar a escrita na primeira linha (Linha 0)
-    LCD.cursor(0, 0) // Vai para o início da linha de cima
-    LCD.write("ISEL - LEIC") // O teu curso em destaque!
+   // LCD.cursor(0, 0) // Vai para o início da linha de cima
+    LCD.write("FAMILIA DUMBO...") // O teu curso em destaque!
     println("Primeira linha enviada.")
 
     // 4. Testar a mudança de linha (Linha 1)
     LCD.cursor(1, 0) // Salta para a linha de baixo
-    LCD.write("A funcionar!!!")
+    LCD.write("CHANDAMISSA")
     println("Segunda linha enviada.")
 
     // --- TESTE EXTRA: Limpeza de ecrã ---
